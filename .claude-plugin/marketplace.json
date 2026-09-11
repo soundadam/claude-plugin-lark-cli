@@ -9,7 +9,7 @@
     {
       "name": "lark-cli",
       "displayName": "Lark / Feishu CLI",
-      "description": "Official Lark/Feishu CLI Agent Skills: docs, drive, calendar, messenger, Base, sheets, mail, wiki, and more. Requires the lark-cli binary (npx @larksuite/cli@latest install).",
+      "description": "Official Lark/Feishu CLI Agent Skills: docs, drive, calendar, messenger, Base, sheets, mail, wiki, and more. Requires the lark-cli binary (bun add -g @larksuite/cli).",
       "author": {
         "name": "Lark Technologies Pte. Ltd.",
         "url": "https://github.com/larksuite/cli"

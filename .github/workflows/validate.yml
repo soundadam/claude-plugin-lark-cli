@@ -21,8 +21,10 @@ jobs:
           assert plugin["strict"] is False
           assert plugin["source"]["source"] == "git-subdir"
           assert plugin["source"]["url"] == "https://github.com/larksuite/cli.git"
-          assert plugin["source"]["path"] == "skills"
-          skills = plugin["skills"]
+assert plugin["source"]["path"] == "skills"
+              assert "bun add -g @larksuite/cli" in plugin["description"]
+              assert "npx " not in plugin["description"]
+              skills = plugin["skills"]
           assert skills[0].startswith("./lark-")
           assert "./lark-doc" in skills
           assert "./lark-setup" not in skills
