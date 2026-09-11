@@ -1,0 +1,9 @@
+This repository is a Claude Code marketplace catalog. It lists the official
+Lark/Feishu CLI Agent Skills and points Claude Code at:
+
+  https://github.com/larksuite/cli  (path: skills)
+
+It is not an official Lark, Feishu, or ByteDance product. Skill files are not
+vendored here; they remain under the upstream MIT license:
+
+  Copyright (c) 2026 Lark Technologies Pte. Ltd.

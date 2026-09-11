@@ -1,0 +1,62 @@
+{
+  "name": "soundadam-lark",
+  "description": "Claude Code marketplace that exposes official Lark/Feishu CLI Agent Skills from larksuite/cli.",
+  "owner": {
+    "name": "soundadam",
+    "url": "https://github.com/soundadam"
+  },
+  "plugins": [
+    {
+      "name": "lark-cli",
+      "displayName": "Lark / Feishu CLI",
+      "description": "Official Lark/Feishu CLI Agent Skills: docs, drive, calendar, messenger, Base, sheets, mail, wiki, and more. Requires the lark-cli binary (npx @larksuite/cli@latest install).",
+      "author": {
+        "name": "Lark Technologies Pte. Ltd.",
+        "url": "https://github.com/larksuite/cli"
+      },
+      "homepage": "https://github.com/larksuite/cli",
+      "repository": "https://github.com/larksuite/cli",
+      "license": "MIT",
+      "category": "productivity",
+      "tags": ["lark", "feishu", "docs", "cli"],
+      "keywords": ["lark", "feishu", "lark-cli", "docs"],
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/larksuite/cli.git",
+        "path": "skills",
+        "ref": "main"
+      },
+      "strict": false,
+      "skills": [
+        "./lark-approval",
+        "./lark-apps",
+        "./lark-attendance",
+        "./lark-base",
+        "./lark-calendar",
+        "./lark-contact",
+        "./lark-doc",
+        "./lark-drive",
+        "./lark-event",
+        "./lark-im",
+        "./lark-mail",
+        "./lark-markdown",
+        "./lark-meeting",
+        "./lark-minutes",
+        "./lark-note",
+        "./lark-okr",
+        "./lark-openapi-explorer",
+        "./lark-shared",
+        "./lark-sheets",
+        "./lark-skill-maker",
+        "./lark-slides",
+        "./lark-task",
+        "./lark-vc",
+        "./lark-vc-agent",
+        "./lark-whiteboard",
+        "./lark-wiki",
+        "./lark-workflow-meeting-summary",
+        "./lark-workflow-standup-report"
+      ]
+    }
+  ]
+}
