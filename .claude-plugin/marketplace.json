@@ -1,6 +1,6 @@
 {
   "name": "soundadam-lark",
-  "description": "Claude Code marketplace that exposes official Lark/Feishu CLI Agent Skills from larksuite/cli.",
+  "description": "Claude Code marketplace for explicit-invocation Lark/Feishu CLI skills. Vendored from larksuite/cli so they can be hidden from the model's skill listing.",
   "owner": {
     "name": "soundadam",
     "url": "https://github.com/soundadam"
@@ -9,54 +9,19 @@
     {
       "name": "lark-cli",
       "displayName": "Lark / Feishu CLI",
-      "description": "Official Lark/Feishu CLI Agent Skills: docs, drive, calendar, messenger, Base, sheets, mail, wiki, and more. Requires the lark-cli binary (bun add -g @larksuite/cli).",
+      "description": "Explicit-invocation Lark/Feishu skills: /lark-cli:lark-doc and /lark-cli:lark-wiki. Both set disable-model-invocation, so they stay out of the always-on skill listing and cost nothing until you type them. Requires the lark-cli binary (bun add -g @larksuite/cli).",
       "author": {
         "name": "Lark Technologies Pte. Ltd.",
         "url": "https://github.com/larksuite/cli"
       },
       "homepage": "https://github.com/larksuite/cli",
-      "repository": "https://github.com/larksuite/cli",
+      "repository": "https://github.com/soundadam/claude-plugin-lark-cli",
       "license": "MIT",
       "category": "productivity",
-      "tags": ["lark", "feishu", "docs", "cli"],
-      "keywords": ["lark", "feishu", "lark-cli", "docs"],
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/larksuite/cli.git",
-        "path": "skills",
-        "ref": "main"
-      },
-      "strict": false,
-      "skills": [
-        "./lark-approval",
-        "./lark-apps",
-        "./lark-attendance",
-        "./lark-base",
-        "./lark-calendar",
-        "./lark-contact",
-        "./lark-doc",
-        "./lark-drive",
-        "./lark-event",
-        "./lark-im",
-        "./lark-mail",
-        "./lark-markdown",
-        "./lark-meeting",
-        "./lark-minutes",
-        "./lark-note",
-        "./lark-okr",
-        "./lark-openapi-explorer",
-        "./lark-shared",
-        "./lark-sheets",
-        "./lark-skill-maker",
-        "./lark-slides",
-        "./lark-task",
-        "./lark-vc",
-        "./lark-vc-agent",
-        "./lark-whiteboard",
-        "./lark-wiki",
-        "./lark-workflow-meeting-summary",
-        "./lark-workflow-standup-report"
-      ]
+      "tags": ["lark", "feishu", "docs", "wiki", "cli"],
+      "keywords": ["lark", "feishu", "lark-cli", "docs", "wiki"],
+      "source": "./plugins/lark-cli",
+      "strict": false
     }
   ]
 }

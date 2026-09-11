@@ -10,23 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Check marketplace.json
-        run: |
-          python3 - <<'PY'
-          import json, pathlib
-          market = json.loads(pathlib.Path(".claude-plugin/marketplace.json").read_text())
-          assert market["name"] == "soundadam-lark"
-          plugin = market["plugins"][0]
-          assert plugin["name"] == "lark-cli"
-          assert plugin["strict"] is False
-          assert plugin["source"]["source"] == "git-subdir"
-          assert plugin["source"]["url"] == "https://github.com/larksuite/cli.git"
-assert plugin["source"]["path"] == "skills"
-              assert "bun add -g @larksuite/cli" in plugin["description"]
-              assert "npx " not in plugin["description"]
-              skills = plugin["skills"]
-          assert skills[0].startswith("./lark-")
-          assert "./lark-doc" in skills
-          assert "./lark-setup" not in skills
-          print(f"ok {len(skills)} upstream skills")
-          PY
+      - name: Check marketplace and vendored skills
+        run: python3 scripts/validate.py

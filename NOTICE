@@ -1,9 +1,28 @@
-This repository is a Claude Code marketplace catalog. It lists the official
-Lark/Feishu CLI Agent Skills and points Claude Code at:
+This repository is a Claude Code marketplace. It ships a plugin that vendors a
+subset of the official Lark/Feishu CLI Agent Skills from:
 
   https://github.com/larksuite/cli  (path: skills)
 
-It is not an official Lark, Feishu, or ByteDance product. Skill files are not
-vendored here; they remain under the upstream MIT license:
+It is not an official Lark, Feishu, or ByteDance product.
+
+Vendored under plugins/lark-cli/skills/ :
+
+  lark-doc, lark-wiki, lark-shared
+
+These files remain under the upstream MIT license:
 
   Copyright (c) 2026 Lark Technologies Pte. Ltd.
+
+They are redistributed with one modification: the line
+
+  disable-model-invocation: true
+
+is added to the YAML frontmatter of each SKILL.md, so the skills stay out of
+Claude Code's always-on skill listing and are reachable only by typing
+/lark-cli:<name>. No other content is altered.
+
+The upstream commit the current files came from is recorded in
+plugins/lark-cli/UPSTREAM_SHA, and scripts/sync-upstream.sh re-vendors them.
+
+Everything else in this repository (marketplace JSON, plugin manifest, scripts,
+documentation) is MIT, Copyright (c) 2026 soundadam.

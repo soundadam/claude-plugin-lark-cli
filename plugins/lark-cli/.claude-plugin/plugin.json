@@ -1,0 +1,15 @@
+{
+  "name": "lark-cli",
+  "description": "Explicit-invocation Lark/Feishu skills: /lark-cli:lark-doc and /lark-cli:lark-wiki. Hidden from the model's skill listing, so they cost nothing until you type them. Requires the lark-cli binary (bun add -g @larksuite/cli).",
+  "version": "0.2.0",
+  "author": {
+    "name": "Lark Technologies Pte. Ltd.",
+    "url": "https://github.com/larksuite/cli"
+  },
+  "homepage": "https://github.com/larksuite/cli",
+  "license": "MIT",
+  "skills": [
+    "./skills/lark-doc",
+    "./skills/lark-wiki"
+  ]
+}
