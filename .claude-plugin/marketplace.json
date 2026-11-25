@@ -9,7 +9,7 @@
     {
       "name": "lark-cli",
       "displayName": "Lark / Feishu CLI",
-      "description": "Explicit-invocation Lark/Feishu skills: /lark-cli:lark-doc and /lark-cli:lark-wiki. Both set disable-model-invocation, so they stay out of the always-on skill listing and cost nothing until you type them. Requires the lark-cli binary (bun add -g @larksuite/cli).",
+      "description": "Explicit-invocation Lark/Feishu skills: /lark-cli:lark-doc, /lark-cli:lark-wiki and /lark-cli:lark-whiteboard. All set disable-model-invocation, so they stay out of the always-on skill listing and cost nothing until you type them. Requires the lark-cli binary (bun add -g @larksuite/cli).",
       "author": {
         "name": "Lark Technologies Pte. Ltd.",
         "url": "https://github.com/larksuite/cli"
@@ -18,8 +18,8 @@
       "repository": "https://github.com/soundadam/claude-plugin-lark-cli",
       "license": "MIT",
       "category": "productivity",
-      "tags": ["lark", "feishu", "docs", "wiki", "cli"],
-      "keywords": ["lark", "feishu", "lark-cli", "docs", "wiki"],
+      "tags": ["lark", "feishu", "docs", "wiki", "whiteboard", "cli"],
+      "keywords": ["lark", "feishu", "lark-cli", "docs", "wiki", "whiteboard", "flowchart"],
       "source": "./plugins/lark-cli",
       "strict": false
     }

@@ -42,7 +42,7 @@ check("npx " not in entry["description"], "description must not suggest npx")
 manifest = json.loads((PLUGIN_DIR / ".claude-plugin" / "plugin.json").read_text())
 registered = manifest["skills"]
 check(
-    registered == ["./skills/lark-doc", "./skills/lark-wiki"],
+    registered == ["./skills/lark-doc", "./skills/lark-wiki", "./skills/lark-whiteboard"],
     f"unexpected registered skills: {registered}",
 )
 
@@ -54,10 +54,21 @@ for rel in registered:
         continue
     text = skill_md.read_text(encoding="utf-8")
     frontmatter = text.split("---")[1] if text.startswith("---") else ""
+    fm_lines = frontmatter.splitlines()
     check(
-        FLAG in frontmatter,
+        FLAG in fm_lines,
         f"{rel} is registered without `{FLAG}` — it would cost always-on context",
     )
+    # The flag must be its own top-level key, not wedged between a block-scalar
+    # indicator (`description: >`) and its indented continuation lines.
+    if FLAG in fm_lines:
+        k = fm_lines.index(FLAG)
+        prev = fm_lines[k - 1].rstrip() if k else ""
+        nxt = fm_lines[k + 1] if k + 1 < len(fm_lines) else ""
+        check(
+            not re.search(r":\s*[>|][-+]?$", prev) and not nxt.startswith((" ", "\t")),
+            f"{rel}: `{FLAG}` splits a block scalar — frontmatter YAML is broken",
+        )
 
 # lark-shared backs lark-doc's `Read ../lark-shared/SKILL.md` prerequisite.
 shared = PLUGIN_DIR / "skills" / "lark-shared" / "SKILL.md"
