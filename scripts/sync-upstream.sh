@@ -16,7 +16,7 @@ DEST="$REPO_ROOT/plugins/lark-cli/skills"
 # lark-shared is vendored but deliberately NOT registered in plugin.json.
 # lark-doc's body requires reading ../lark-shared/SKILL.md, so the directory
 # must exist on disk; leaving it unregistered keeps it off the skill listing.
-SKILLS=(lark-doc lark-wiki lark-shared)
+SKILLS=(lark-doc lark-wiki lark-whiteboard lark-shared)
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
@@ -40,9 +40,22 @@ for s in skills:
     t = p.read_text(encoding="utf-8")
     if "disable-model-invocation" in t:
         continue
-    t, n = re.subn(r"(?m)^(description:.*)$", r"\1\ndisable-model-invocation: true", t, count=1)
-    if n != 1:
-        sys.exit(f"{s}: could not locate a single-line `description:` in the frontmatter")
+    # Insert the flag as a top-level key right after the description *value*,
+    # which may be a block scalar (`description: >` / `|`) spanning indented
+    # continuation lines — inserting directly after the key line would break it.
+    m = re.match(r"---\n(.*?\n)---\n", t, re.S)
+    if not m:
+        sys.exit(f"{s}: SKILL.md has no YAML frontmatter")
+    lines = m.group(1).splitlines(keepends=True)
+    try:
+        i = next(k for k, l in enumerate(lines) if l.startswith("description:"))
+    except StopIteration:
+        sys.exit(f"{s}: no top-level `description:` in the frontmatter")
+    i += 1
+    while i < len(lines) and (lines[i].startswith((" ", "\t")) or not lines[i].strip()):
+        i += 1
+    lines.insert(i, "disable-model-invocation: true\n")
+    t = "---\n" + "".join(lines) + "---\n" + t[m.end():]
     p.write_text(t, encoding="utf-8")
     print(f"  flagged {s}")
 PY

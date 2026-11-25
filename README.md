@@ -1,6 +1,6 @@
 # Lark / Feishu CLI for Claude Code
 
-A Claude Code plugin that exposes exactly two Lark/Feishu skills — **`/lark-cli:lark-doc`** and **`/lark-cli:lark-wiki`** — and costs **zero always-on context** until you type one.
+A Claude Code plugin that exposes exactly three Lark/Feishu skills — **`/lark-cli:lark-doc`**, **`/lark-cli:lark-wiki`** and **`/lark-cli:lark-whiteboard`** — and costs **zero always-on context** until you type one.
 
 This repo is not an official Lark, Feishu, or ByteDance product. Skill text is vendored from [`larksuite/cli`](https://github.com/larksuite/cli); see [Staying in sync](#staying-in-sync).
 
@@ -19,7 +19,7 @@ That removes the skill from the model's listing entirely while keeping the slash
 | | always-on | how it fires |
 | --- | --- | --- |
 | Upstream 28-skill catalog | ~4,508 tok | auto-match, or `/lark-cli:<name>` |
-| **This plugin** | **0 tok** | `/lark-cli:lark-doc`, `/lark-cli:lark-wiki` |
+| **This plugin** | **0 tok** | `/lark-cli:lark-doc`, `/lark-cli:lark-wiki`, `/lark-cli:lark-whiteboard` |
 
 The trade is deliberate: Claude will no longer reach for these on its own. You ask for them by name.
 
@@ -48,6 +48,8 @@ ln -sfn "$HOME/.bun/install/global/node_modules/@larksuite/cli/bin/lark-cli" "$H
 lark-cli config init --new --brand feishu --lang zh
 lark-cli auth login --recommend
 ```
+
+`lark-whiteboard` additionally renders and checks diagrams with `npx -y @larksuite/whiteboard-cli`, so it needs Node/`npx` on `PATH` as well.
 
 Do not use the official `install` wizard (`bunx @larksuite/cli@latest install`): it still shells out to `npm install -g` and `npx skills add`, which dumps all 28 skills into `~/.claude/skills`.
 
@@ -79,15 +81,16 @@ Note that `claude plugin details` reports a static estimate from the raw descrip
 
 ```
 plugins/lark-cli/
-  .claude-plugin/plugin.json     registers lark-doc and lark-wiki
+  .claude-plugin/plugin.json     registers lark-doc, lark-wiki and lark-whiteboard
   UPSTREAM_SHA                   larksuite/cli commit the skills came from
   skills/
     lark-doc/                    registered
     lark-wiki/                   registered
+    lark-whiteboard/             registered
     lark-shared/                 NOT registered — present on disk only
 ```
 
-`lark-shared` is vendored but deliberately left out of `plugin.json`. `lark-doc`'s body opens with *"MUST 先用 Read 工具读取 `../lark-shared/SKILL.md`"* — auth, identity, and permission rules live there — so the directory has to exist as a sibling. Not registering it means it never reaches the skill listing. It carries the frontmatter flag anyway, as a belt-and-braces measure in case a future version auto-discovers everything under `skills/`.
+`lark-shared` is vendored but deliberately left out of `plugin.json`. `lark-doc`'s (and `lark-whiteboard`'s) body opens with *"MUST 先用 Read 工具读取 `../lark-shared/SKILL.md`"* — auth, identity, and permission rules live there — so the directory has to exist as a sibling. Not registering it means it never reaches the skill listing. It carries the frontmatter flag anyway, as a belt-and-braces measure in case a future version auto-discovers everything under `skills/`.
 
 That relative read is subject to normal file permissions: the first time a skill reads its sibling you will get a permission prompt, since the plugin cache lives outside your working directory. This is upstream behaviour, not something this repo introduces.
 
@@ -124,7 +127,7 @@ Marketplace JSON, scripts, and docs in this repository are MIT. Vendored skill t
 
 # 中文
 
-一个 Claude Code 插件，只暴露两个飞书 skill——**`/lark-cli:lark-doc`** 和 **`/lark-cli:lark-wiki`**——在你手动敲之前，**always-on 开销为零**。
+一个 Claude Code 插件，只暴露三个飞书 skill——**`/lark-cli:lark-doc`**、**`/lark-cli:lark-wiki`** 和 **`/lark-cli:lark-whiteboard`**——在你手动敲之前，**always-on 开销为零**。
 
 本仓库不是 Lark / 飞书 / 字节跳动的官方产品。skill 文本 vendor 自 [`larksuite/cli`](https://github.com/larksuite/cli)，同步方式见下文。
 
@@ -143,7 +146,7 @@ disable-model-invocation: true
 | | always-on | 触发方式 |
 | --- | --- | --- |
 | 上游 28 skill 全量 | ~4,508 tok | 自动匹配，或 `/lark-cli:<name>` |
-| **本插件** | **0 tok** | `/lark-cli:lark-doc`、`/lark-cli:lark-wiki` |
+| **本插件** | **0 tok** | `/lark-cli:lark-doc`、`/lark-cli:lark-wiki`、`/lark-cli:lark-whiteboard` |
 
 代价是明确的：Claude 不会再主动调用它们，得你点名。
 
@@ -173,6 +176,8 @@ lark-cli config init --new --brand feishu --lang zh
 lark-cli auth login --recommend
 ```
 
+`lark-whiteboard` 还会用 `npx -y @larksuite/whiteboard-cli` 渲染和校验图，所以 `PATH` 上还需要有 Node/`npx`。
+
 不要跑官方的 `install` 向导（`bunx @larksuite/cli@latest install`）：它会调用 `npm install -g` 和 `npx skills add`，把 28 个 skill 全摊进 `~/.claude/skills`。
 
 然后：
@@ -197,15 +202,16 @@ lark-cli auth login --recommend
 
 ```
 plugins/lark-cli/
-  .claude-plugin/plugin.json     注册 lark-doc 和 lark-wiki
+  .claude-plugin/plugin.json     注册 lark-doc、lark-wiki 和 lark-whiteboard
   UPSTREAM_SHA                   skill 来自 larksuite/cli 的哪个 commit
   skills/
     lark-doc/                    已注册
     lark-wiki/                   已注册
+    lark-whiteboard/             已注册
     lark-shared/                 未注册 —— 只是放在磁盘上
 ```
 
-`lark-shared` 被 vendor 了，但故意不写进 `plugin.json`。`lark-doc` 的正文开头就是 *"MUST 先用 Read 工具读取 `../lark-shared/SKILL.md`"*——认证、身份、权限规则都在里面——所以这个目录必须作为 sibling 存在。不注册它，它就永远进不了 skill listing。它自己也带了那行 frontmatter，纯属兜底，防止将来某个版本自动发现 `skills/` 下的全部目录。
+`lark-shared` 被 vendor 了，但故意不写进 `plugin.json`。`lark-doc`（以及 `lark-whiteboard`）的正文开头就是 *"MUST 先用 Read 工具读取 `../lark-shared/SKILL.md`"*——认证、身份、权限规则都在里面——所以这个目录必须作为 sibling 存在。不注册它，它就永远进不了 skill listing。它自己也带了那行 frontmatter，纯属兜底，防止将来某个版本自动发现 `skills/` 下的全部目录。
 
 那条相对读取受常规文件权限约束：skill 第一次读 sibling 时会弹权限提示，因为插件 cache 在工作目录之外。这是上游本来的行为，不是本仓库引入的。
 
